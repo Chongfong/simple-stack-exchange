@@ -34,7 +34,7 @@ const Trending = () => {
   }, []);
   return (
     <>
-      <p>Trending</p>
+      <p className="text-slate-700 text-2xl">Trending</p>
       <div className="flex justify-start flex-nowrap my-1">
         {currentTrending.length > 0 ? (
           currentTrending.map((trending) => (
@@ -53,7 +53,7 @@ const Trending = () => {
                   onClick={() => {
                     dispatch(setTrendingClicked(trending.name));
                   }}
-                  className="py-1 px-2 mx-1 rounded-xl bg-sky-200 border-2 border-sky-700 hover:bg-sky-700 hover:text-white"
+                  className="py-1 px-2 mx-1 rounded-xl text-slate-700 bg-sky-200 border-2 border-sky-700 hover:bg-sky-700 hover:text-white"
                 >
                   {trending.name}
                 </button>

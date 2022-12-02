@@ -1,13 +1,18 @@
 import React from 'react';
+import Trending from './components/Trending';
+import { Provider } from 'react-redux';
+import store from './app/store';
 import './App.css';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <p>Hello World</p>
-      </header>
-    </div>
+    <Provider store={store}>
+      <div>
+        <header>
+          <Trending />
+        </header>
+      </div>
+    </Provider>
   );
 }
 

@@ -12,5 +12,7 @@
     "sourceType": "module"
   },
   "plugins": ["react", "react-hooks", "prettier"],
-  "rules": {}
+  "rules": {
+    "react/react-in-jsx-scope": "off"
+  }
 }

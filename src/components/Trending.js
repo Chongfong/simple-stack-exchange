@@ -1,10 +1,11 @@
 import api from '../utils/api';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
-import { setTrending, setLoading, setErrorMessage } from './stackoverflow/stackoverflow.slice';
+import { setTrending, setTrendingClicked, setLoading, setErrorMessage } from './stackoverflow/stackoverflow.slice';
 import { Fragment, useEffect } from 'react';
 
 const Trending = () => {
   const currentTrending = useAppSelector((state) => state.stackoverflow.trending);
+  const trendingClicked = useAppSelector((state) => state.stackoverflow.trendingClicked);
   const dispatch = useAppDispatch();
 
   const handleFetch = async () => {
@@ -20,6 +21,7 @@ const Trending = () => {
       })
       .then((trending) => {
         dispatch(setTrending(trending.items));
+        dispatch(setTrendingClicked(trending.items[0].name));
       });
   };
   useEffect(() => {
@@ -34,7 +36,25 @@ const Trending = () => {
         {currentTrending.length > 0 &&
           currentTrending.map((trending) => (
             <Fragment key={trending.name}>
-              <button>{trending.name}</button>
+              {trending.name === trendingClicked ? (
+                <button
+                  onClick={() => {
+                    dispatch(setTrendingClicked(trending.name));
+                  }}
+                  className="text-white bg-sky-700"
+                >
+                  {trending.name}
+                </button>
+              ) : (
+                <button
+                  onClick={() => {
+                    dispatch(setTrendingClicked(trending.name));
+                  }}
+                  className="bg-sky-200"
+                >
+                  {trending.name}
+                </button>
+              )}
             </Fragment>
           ))}
       </div>

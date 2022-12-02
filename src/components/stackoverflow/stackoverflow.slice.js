@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   trending: [],
+  trendingClicked: '',
   loading: false,
   errorMessage: '',
 };
@@ -13,6 +14,9 @@ export const stackoverflowSlice = createSlice({
     setTrending: (state, action) => {
       state.trending = action.payload;
     },
+    setTrendingClicked: (state, action) => {
+      state.trendingClicked = action.payload;
+    },
     setLoading: (state, action) => {
       state.trending = action.payload;
     },
@@ -22,6 +26,6 @@ export const stackoverflowSlice = createSlice({
   },
 });
 
-export const { setTrending, setLoading, setErrorMessage } = stackoverflowSlice.actions;
+export const { setTrending, setTrendingClicked, setLoading, setErrorMessage } = stackoverflowSlice.actions;
 
 export default stackoverflowSlice.reducer;

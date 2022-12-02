@@ -32,7 +32,7 @@ const Trending = () => {
   return (
     <>
       <p>Trending</p>
-      <div>
+      <div className="flex justify-start flex-nowrap my-1">
         {currentTrending.length > 0 &&
           currentTrending.map((trending) => (
             <Fragment key={trending.name}>
@@ -41,7 +41,7 @@ const Trending = () => {
                   onClick={() => {
                     dispatch(setTrendingClicked(trending.name));
                   }}
-                  className="text-white bg-sky-700"
+                  className="py-1 px-2 mx-1 rounded-xl text-white bg-sky-700 border-2 border-sky-700"
                 >
                   {trending.name}
                 </button>
@@ -50,7 +50,7 @@ const Trending = () => {
                   onClick={() => {
                     dispatch(setTrendingClicked(trending.name));
                   }}
-                  className="bg-sky-200"
+                  className="py-1 px-2 mx-1 rounded-xl bg-sky-200 border-2 border-sky-700 hover:bg-sky-700 hover:text-white"
                 >
                   {trending.name}
                 </button>

@@ -7,7 +7,7 @@ import './App.css';
 function App() {
   return (
     <Provider store={store}>
-      <div>
+      <div className="w-4/5 mx-auto">
         <header>
           <Trending />
         </header>

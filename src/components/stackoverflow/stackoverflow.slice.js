@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
   trending: [],
   trendingClicked: '',
-  loading: false,
+  isLoading: true,
   errorMessage: '',
 };
 
@@ -18,10 +18,10 @@ export const stackoverflowSlice = createSlice({
       state.trendingClicked = action.payload;
     },
     setLoading: (state, action) => {
-      state.trending = action.payload;
+      state.isLoading = action.payload;
     },
     setErrorMessage: (state, action) => {
-      state.trending = action.payload;
+      state.errorMessage = action.payload;
     },
   },
 });

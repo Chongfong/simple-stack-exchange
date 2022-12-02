@@ -1,11 +1,14 @@
 import api from '../utils/api';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { setTrending, setTrendingClicked, setLoading, setErrorMessage } from './stackoverflow/stackoverflow.slice';
+import Loader from './Loader';
 import { Fragment, useEffect } from 'react';
 
 const Trending = () => {
   const currentTrending = useAppSelector((state) => state.stackoverflow.trending);
   const trendingClicked = useAppSelector((state) => state.stackoverflow.trendingClicked);
+  const isLoading = useAppSelector((state) => state.stackoverflow.isLoading);
+  const errorMessage = useAppSelector((state) => state.stackoverflow.errorMessage);
   const dispatch = useAppDispatch();
 
   const handleFetch = async () => {
@@ -33,7 +36,7 @@ const Trending = () => {
     <>
       <p>Trending</p>
       <div className="flex justify-start flex-nowrap my-1">
-        {currentTrending.length > 0 &&
+        {currentTrending.length > 0 ? (
           currentTrending.map((trending) => (
             <Fragment key={trending.name}>
               {trending.name === trendingClicked ? (
@@ -56,7 +59,13 @@ const Trending = () => {
                 </button>
               )}
             </Fragment>
-          ))}
+          ))
+        ) : (
+          <>
+            {isLoading && <Loader />}
+            <p className="my-10 text-slate-700 font-bold">{errorMessage}</p>
+          </>
+        )}
       </div>
     </>
   );

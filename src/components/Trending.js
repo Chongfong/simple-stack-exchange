@@ -35,7 +35,7 @@ const Trending = () => {
   return (
     <>
       <p className="text-slate-700 text-2xl">Trending</p>
-      <div className="flex justify-start flex-nowrap my-1">
+      <div className="flex justify-start flex-wrap my-1 gap-1">
         {currentTrending.length > 0 ? (
           currentTrending.map((trending) => (
             <Fragment key={trending.name}>

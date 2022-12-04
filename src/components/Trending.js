@@ -24,7 +24,7 @@ const Trending = () => {
       })
       .then((trending) => {
         dispatch(setTrending(trending.items));
-        dispatch(setTrendingClicked(trending.items[0].name));
+        dispatch(setTrendingClicked(String(trending.items[0].name)));
       });
   };
   useEffect(() => {

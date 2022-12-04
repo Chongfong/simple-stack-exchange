@@ -5,6 +5,7 @@ const initialState = {
   trendingClicked: '',
   isLoading: true,
   errorMessage: '',
+  questions: [],
 };
 
 export const stackoverflowSlice = createSlice({
@@ -23,9 +24,13 @@ export const stackoverflowSlice = createSlice({
     setErrorMessage: (state, action) => {
       state.errorMessage = action.payload;
     },
+    setQuestions: (state, action) => {
+      state.questions = action.payload;
+    },
   },
 });
 
-export const { setTrending, setTrendingClicked, setLoading, setErrorMessage } = stackoverflowSlice.actions;
+export const { setTrending, setTrendingClicked, setLoading, setErrorMessage, setQuestions } =
+  stackoverflowSlice.actions;
 
 export default stackoverflowSlice.reducer;

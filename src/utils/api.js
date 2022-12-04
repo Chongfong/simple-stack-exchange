@@ -10,6 +10,19 @@ const api = {
       }
     );
   },
+  async getQuestions(page, tag) {
+    return fetch(
+      `${this.hostname}/2.3/questions?page=${page}&pagesize=20&order=desc&sort=activity&tagged=${String(
+        encodeURIComponent(tag)
+      )}&site=stackoverflow`
+    ).then((response) => {
+      if (response.ok) {
+        return response.json();
+      } else if (response.status === 500) {
+        throw new Error('Network response was not ok.');
+      }
+    });
+  },
 };
 
 export default api;

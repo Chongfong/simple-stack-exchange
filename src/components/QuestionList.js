@@ -34,7 +34,7 @@ const QuestionList = () => {
       {currentQuestion.length > 0 ? (
         currentQuestion.map((question) => (
           <div
-            className="flex flex-nowrap py-4 border-b-2 border-sky-200"
+            className="flex flex-nowrap py-4 border-b-2 border-sky-200 hover:opacity-60 hover:cursor-pointer"
             key={question.question_id}
             onClick={(e) => {
               e.stopPropagation;
@@ -46,24 +46,31 @@ const QuestionList = () => {
                 <div>{question.title}</div>
               </div>
               <div className="w-full justify-evenly flex flex-nowrap">
-                <div className="w-1/3">
-                  <p>Score</p>
-                  <div>{question.score}</div>
+                <div className="w-1/3 text-center">
+                  <p className="text-red-700 font-bold pt-1">Score</p>
+                  <div className={`text-center ${question.score < 0 && 'text-red-500'}`}>{question.score}</div>
                 </div>
-                <div className="w-1/3">
-                  <p>Answers</p>
-                  <div>{question.answer_count}</div>
-                  <div>{question.is_answered === true ? 'ture' : 'false'}</div>
+                <div className="w-1/3 text-center">
+                  <p className="text-red-700 font-bold pt-1">Answers</p>
+                  <div
+                    className={`mx-auto w-16 text-center ${
+                      question.answer_count > 0 && question.is_answered === true
+                        ? 'bg-green-600 text-white'
+                        : question.answer_count > 0 && 'border-green-600 border-2 text-green-600'
+                    }`}
+                  >
+                    {question.answer_count}
+                  </div>
                 </div>
-                <div className="w-1/3">
-                  <p>Viewed</p>
-                  <div>{question.view_count}</div>
+                <div className="w-1/3 text-center">
+                  <p className="text-red-700 font-bold pt-1">Viewed</p>
+                  <div className="text-center">{question.view_count}</div>
                 </div>
               </div>
             </div>
             <div className="w-1/5 flex flex-wrap text-center">
               <div className="w-full">
-                <img src={question.owner.profile_image} className="rounded-full w-20 h-20 mx-auto" />
+                <img src={question.owner.profile_image} className="rounded-full w-16 h-16 mx-auto" />
               </div>
               <div className="w-full">{question.owner.display_name}</div>
             </div>

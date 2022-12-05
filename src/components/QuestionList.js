@@ -87,7 +87,7 @@ const QuestionList = () => {
             }}
             ref={setLastElement}
           >
-            <div className="w-4/5 flex flex-wrap">
+            <div className="w-4/5 flex flex-wrap pr-4">
               <div className="w-full">
                 <div>{question.title}</div>
               </div>
@@ -118,7 +118,7 @@ const QuestionList = () => {
               <div className="w-full">
                 <img src={question.owner.profile_image} className="rounded-full w-16 h-16 mx-auto" />
               </div>
-              <div className="w-full">{question.owner.display_name}</div>
+              <div className="w-full break-words">{question.owner.display_name}</div>
             </div>
           </div>
         ))

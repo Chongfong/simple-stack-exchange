@@ -57,35 +57,47 @@ const QuestionList = () => {
 
   useEffect(() => {
     dispatch(setLoading(true));
-    fetchQuestions().then((questions) => {
-      if (questions?.items.length === 0) {
+    fetchQuestions()
+      .then((questions) => {
+        if (questions?.items.length === 0) {
+          dispatch(setLoading(false));
+          dispatch(resetQuestions([]));
+          dispatch(setErrorMessage('No Data'));
+        }
+        if (lastElement) {
+          dispatch(setLoading(false));
+          dispatch(resetQuestions([]));
+          dispatch(setQuestions(questions.items));
+        } else {
+          dispatch(setLoading(false));
+          dispatch(setQuestions(questions.items));
+        }
+      })
+      .catch(() => {
         dispatch(setLoading(false));
         dispatch(resetQuestions([]));
-        dispatch(setErrorMessage('No Data'));
-      }
-      if (lastElement) {
-        dispatch(setLoading(false));
-        dispatch(resetQuestions([]));
-        dispatch(setQuestions(questions.items));
-      } else {
-        dispatch(setLoading(false));
-        dispatch(setQuestions(questions.items));
-      }
-    });
+        dispatch(setErrorMessage('No such data'));
+      });
   }, [trendingClicked]);
 
   useEffect(() => {
     if (currentPage === 1) return;
     dispatch(setLoading(true));
-    fetchQuestions().then((questions) => {
-      if (questions?.items.length === 0) {
+    fetchQuestions()
+      .then((questions) => {
+        if (questions?.items.length === 0) {
+          dispatch(setLoading(false));
+          dispatch(resetQuestions([]));
+          dispatch(setErrorMessage('No More Data'));
+        }
+        dispatch(setLoading(false));
+        dispatch(setQuestions(questions.items));
+      })
+      .catch(() => {
         dispatch(setLoading(false));
         dispatch(resetQuestions([]));
-        dispatch(setErrorMessage('No More Data'));
-      }
-      dispatch(setLoading(false));
-      dispatch(setQuestions(questions.items));
-    });
+        dispatch(setErrorMessage('No such data'));
+      });
   }, [currentPage]);
   return (
     <>

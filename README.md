@@ -35,6 +35,8 @@ Type a keyword and get questions from stackoverflow.
 
 - Filter feature with different tags.
 
+- Infinite scroll feature.
+
 ---
 
 ## ▌ Quick Start

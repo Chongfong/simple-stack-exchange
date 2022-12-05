@@ -11,6 +11,7 @@ const api = {
     );
   },
   async getQuestions(page, tag) {
+    if (!page || !tag) return;
     return fetch(
       `${this.hostname}/2.3/questions?page=${page}&pagesize=20&order=desc&sort=activity&tagged=${String(
         encodeURIComponent(tag)

@@ -1,6 +1,12 @@
 import api from '../utils/api';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
-import { setTrending, setTrendingClicked, setLoading, setErrorMessage } from './stackoverflow/stackoverflow.slice';
+import {
+  setTrending,
+  setTrendingClicked,
+  setLoading,
+  setErrorMessage,
+  resetPage,
+} from './stackoverflow/stackoverflow.slice';
 import Loader from './Loader';
 import { Fragment, useEffect } from 'react';
 
@@ -43,6 +49,7 @@ const Trending = () => {
                 <button
                   onClick={() => {
                     dispatch(setTrendingClicked(trending.name));
+                    dispatch(resetPage(1));
                   }}
                   className="py-1 px-2 mx-1 rounded-xl text-white bg-sky-700 border-2 border-sky-700"
                 >
@@ -52,6 +59,7 @@ const Trending = () => {
                 <button
                   onClick={() => {
                     dispatch(setTrendingClicked(trending.name));
+                    dispatch(resetPage(1));
                   }}
                   className="py-1 px-2 mx-1 rounded-xl text-slate-700 bg-sky-200 border-2 border-sky-700 hover:bg-sky-700 hover:text-white"
                 >

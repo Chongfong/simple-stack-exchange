@@ -1,7 +1,13 @@
 import api from '../utils/api';
-import { Fragment, useEffect } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
-import { setLoading, setErrorMessage, setQuestions } from './stackoverflow/stackoverflow.slice';
+import {
+  setLoading,
+  setErrorMessage,
+  setQuestions,
+  setPage,
+  resetQuestions,
+} from './stackoverflow/stackoverflow.slice';
 import Loader from './Loader';
 
 const QuestionList = () => {
@@ -9,26 +15,65 @@ const QuestionList = () => {
   const trendingClicked = useAppSelector((state) => state.stackoverflow.trendingClicked);
   const isLoading = useAppSelector((state) => state.stackoverflow.isLoading);
   const errorMessage = useAppSelector((state) => state.stackoverflow.errorMessage);
+  const currentPage = useAppSelector((state) => state.stackoverflow.page);
+  const [lastElement, setLastElement] = useState(null);
   const dispatch = useAppDispatch();
-  const fetchData = async () => {
-    api
-      .getQuestions(1, trendingClicked)
-      .then((json) => {
-        if (json.length === 0) {
-          dispatch(setLoading(false));
-          dispatch(setErrorMessage('No such data'));
-        } else {
-          return json;
-        }
-      })
-      .then((questions) => {
-        dispatch(setQuestions(questions.items));
-      });
+  const fetchQuestions = async () => {
+    if (currentPage === undefined) {
+      return;
+    }
+    const response = await api.getQuestions(currentPage, trendingClicked);
+    if (response.length === 0) {
+      dispatch(setLoading(false));
+      dispatch(setErrorMessage('No such data'));
+    } else {
+      return response;
+    }
   };
 
+  const observer = useRef(
+    new IntersectionObserver((entries) => {
+      const first = entries[0];
+      if (first.isIntersecting) {
+        dispatch(setPage());
+      }
+    })
+  );
+
   useEffect(() => {
-    fetchData();
+    const currentElement = lastElement;
+    const currentObserver = observer.current;
+
+    if (currentElement) {
+      currentObserver.observe(currentElement);
+    }
+
+    return () => {
+      if (currentElement) {
+        currentObserver.unobserve(currentElement);
+      }
+    };
+  }, [lastElement]);
+
+  useEffect(() => {
+    fetchQuestions().then((questions) => {
+      if (questions.length === 0) return;
+      if (lastElement) {
+        dispatch(resetQuestions([]));
+        dispatch(setQuestions(questions.items));
+      } else {
+        dispatch(setQuestions(questions.items));
+      }
+    });
   }, [trendingClicked]);
+
+  useEffect(() => {
+    if (currentPage === 1) return;
+    fetchQuestions().then((questions) => {
+      if (questions.length === 0) return;
+      dispatch(setQuestions(questions.items));
+    });
+  }, [currentPage]);
   return (
     <>
       {currentQuestion.length > 0 ? (
@@ -40,6 +85,7 @@ const QuestionList = () => {
               e.stopPropagation;
               window.open(`${question.link}`, '_blank');
             }}
+            ref={setLastElement}
           >
             <div className="w-4/5 flex flex-wrap">
               <div className="w-full">

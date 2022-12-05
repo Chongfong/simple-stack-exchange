@@ -56,12 +56,19 @@ const QuestionList = () => {
   }, [lastElement]);
 
   useEffect(() => {
+    dispatch(setLoading(true));
     fetchQuestions().then((questions) => {
-      if (questions.length === 0) return;
+      if (questions?.items.length === 0) {
+        dispatch(setLoading(false));
+        dispatch(resetQuestions([]));
+        dispatch(setErrorMessage('No Data'));
+      }
       if (lastElement) {
+        dispatch(setLoading(false));
         dispatch(resetQuestions([]));
         dispatch(setQuestions(questions.items));
       } else {
+        dispatch(setLoading(false));
         dispatch(setQuestions(questions.items));
       }
     });
@@ -69,14 +76,20 @@ const QuestionList = () => {
 
   useEffect(() => {
     if (currentPage === 1) return;
+    dispatch(setLoading(true));
     fetchQuestions().then((questions) => {
-      if (questions.length === 0) return;
+      if (questions?.items.length === 0) {
+        dispatch(setLoading(false));
+        dispatch(resetQuestions([]));
+        dispatch(setErrorMessage('No More Data'));
+      }
+      dispatch(setLoading(false));
       dispatch(setQuestions(questions.items));
     });
   }, [currentPage]);
   return (
     <>
-      <div className="h-80 md:h-72"></div>
+      <div className="h-44 md:h-36"></div>
       {currentQuestion.length > 0 ? (
         currentQuestion.map((question) => (
           <div

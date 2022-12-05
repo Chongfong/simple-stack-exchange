@@ -53,7 +53,7 @@ export const SearchInput = () => {
           setTimeout(handleFocusOut, 500);
         }}
       ></input>
-      <div className="w-full h-auto text-left text-stone-600 rounded-b-3xl relative top-[-10px] py-1">
+      <div className="w-full h-auto text-left text-stone-600 rounded-b-3xl relative top-0 py-1 bg-[rgba(255,255,255,0.8)]">
         {inputFocus &&
           currentTrending
             .filter((a) => a.name.slice(0, input.length).toLowerCase() === input.toLowerCase())

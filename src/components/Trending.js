@@ -41,7 +41,7 @@ const Trending = () => {
     }
   }, []);
   return (
-    <>
+    <div className="bg-[rgba(255,255,255,0.8)] w-full">
       <p className="text-slate-700 text-2xl">Trending</p>
       <div className="flex w-full justify-start flex-wrap my-1 gap-x-0.5 gap-y-1 text-xs md:text-base">
         {currentTrending.length > 0 ? (
@@ -79,7 +79,7 @@ const Trending = () => {
           </>
         )}
       </div>
-    </>
+    </div>
   );
 };
 

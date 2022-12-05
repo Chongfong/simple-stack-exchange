@@ -43,7 +43,7 @@ export const SearchInput = () => {
   return (
     <>
       <input
-        className="w-3/5 h-14 mx-5 border-sky-200 border-4 rounded-l-lg p-3 focus:outline-none"
+        className="w-full h-14 border-sky-200 border-4 rounded-lg p-3 focus:outline-none"
         value={input}
         placeholder="search a trending"
         onChange={handleChange}
@@ -53,15 +53,15 @@ export const SearchInput = () => {
           setTimeout(handleFocusOut, 500);
         }}
       ></input>
-      <div className="w-full h-auto text-left text-stone-600 rounded-b-3xl relative top-[-10px] py-3 pl-6">
+      <div className="w-full h-auto text-left text-stone-600 rounded-b-3xl relative top-[-10px] py-1">
         {inputFocus &&
           currentTrending
             .filter((a) => a.name.slice(0, input.length).toLowerCase() === input.toLowerCase())
             .slice(0, 5)
             .map((e) => (
               <div
-                className="my-1 hover:bg-gray-300 hover:cursor-pointer hover:text-stone-800 hover:font-bold pl-3 rounded-lg"
-                key={e.id}
+                className="my-1 hover:bg-gray-300 hover:cursor-pointer hover:text-stone-800 pl-3 hover:font-bold rounded-lg"
+                key={e.name}
               >
                 <div
                   onClick={() => {

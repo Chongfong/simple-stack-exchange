@@ -43,7 +43,7 @@ const Trending = () => {
   return (
     <>
       <p className="text-slate-700 text-2xl">Trending</p>
-      <div className="flex justify-start flex-wrap my-1 gap-1">
+      <div className="flex w-full justify-start flex-wrap my-1 gap-x-0.5 gap-y-1 text-xs md:text-base">
         {currentTrending.length > 0 ? (
           currentTrending.slice(0, 10).map((trending) => (
             <Fragment key={trending.name}>

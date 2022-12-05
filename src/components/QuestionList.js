@@ -76,6 +76,7 @@ const QuestionList = () => {
   }, [currentPage]);
   return (
     <>
+      <div className="h-80 md:h-72"></div>
       {currentQuestion.length > 0 ? (
         currentQuestion.map((question) => (
           <div

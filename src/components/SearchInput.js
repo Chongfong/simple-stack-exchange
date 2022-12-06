@@ -14,9 +14,6 @@ export const SearchInput = () => {
   const [inputFocus, setInputFocus] = useState(false);
   const input = useAppSelector((state) => state.stackoverflow.input);
   const trendingIsClicked = useAppSelector((state) => state.stackoverflow.trendingClicked);
-  const [trending] = useState(
-    currentTrending.filter((value, index, self) => index === self.findIndex((t) => t.name === value.name))
-  );
 
   const handleChange = (e) => {
     dispatch(setErrorMessage(''));
@@ -25,7 +22,7 @@ export const SearchInput = () => {
   const handleKeyboardEvent = (e) => {
     if (e.key === 'Enter') {
       e.preventDefault();
-      if (trending !== input) {
+      if (e.target.value !== input) {
         dispatch(setTrendingClicked(input));
         dispatch(resetQuestions([]));
         dispatch(setLoading(true));
@@ -65,10 +62,12 @@ export const SearchInput = () => {
               >
                 <div
                   onClick={() => {
-                    dispatch(resetQuestions([]));
-                    dispatch(setLoading(true));
-                    dispatch(setInput(e.name));
-                    dispatch(setTrendingClicked(e.name));
+                    if (e.name !== input) {
+                      dispatch(resetQuestions([]));
+                      dispatch(setLoading(true));
+                      dispatch(setInput(e.name));
+                      dispatch(setTrendingClicked(e.name));
+                    }
                   }}
                 >{`${e.name}`}</div>
               </div>

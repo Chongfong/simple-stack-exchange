@@ -4,11 +4,14 @@ import { resetQuestions, setLoading, setInput, setTrendingClicked } from './stac
 const SearchButton = () => {
   const dispatch = useAppDispatch();
   const input = useAppSelector((state) => state.stackoverflow.input);
+  const trendingIsClicked = useAppSelector((state) => state.stackoverflow.trendingClicked);
   const handleSearch = () => {
-    dispatch(resetQuestions([]));
-    dispatch(setLoading(true));
-    dispatch(setInput(input));
-    dispatch(setTrendingClicked(input));
+    if (input !== trendingIsClicked) {
+      dispatch(resetQuestions([]));
+      dispatch(setLoading(true));
+      dispatch(setInput(input));
+      dispatch(setTrendingClicked(input));
+    }
   };
   return (
     <>

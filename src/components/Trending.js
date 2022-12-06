@@ -7,6 +7,7 @@ import {
   setErrorMessage,
   resetPage,
   setInput,
+  resetQuestions,
 } from './stackoverflow/stackoverflow.slice';
 import Loader from './Loader';
 import { Fragment, useEffect } from 'react';
@@ -53,6 +54,7 @@ const Trending = () => {
                     dispatch(setTrendingClicked(trending.name));
                     dispatch(setInput(trending.name));
                     dispatch(resetPage(1));
+                    dispatch(resetQuestions([]));
                   }}
                   className="py-1 px-2 mx-1 rounded-xl text-white bg-sky-700 border-2 border-sky-700"
                 >
@@ -64,6 +66,7 @@ const Trending = () => {
                     dispatch(setTrendingClicked(trending.name));
                     dispatch(setInput(trending.name));
                     dispatch(resetPage(1));
+                    dispatch(resetQuestions([]));
                   }}
                   className="py-1 px-2 mx-1 rounded-xl text-slate-700 bg-sky-200 border-2 border-sky-700 hover:bg-sky-700 hover:text-white"
                 >

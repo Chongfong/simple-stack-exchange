@@ -7,6 +7,7 @@ const initialState = {
   errorMessage: '',
   questions: [],
   page: 1,
+  input: '',
 };
 
 export const stackoverflowSlice = createSlice({
@@ -37,6 +38,9 @@ export const stackoverflowSlice = createSlice({
     resetPage: (state, action) => {
       state.page = action.payload;
     },
+    setInput: (state, action) => {
+      state.input = action.payload;
+    },
   },
 });
 
@@ -49,6 +53,7 @@ export const {
   setPage,
   resetQuestions,
   resetPage,
+  setInput,
 } = stackoverflowSlice.actions;
 
 export default stackoverflowSlice.reducer;

@@ -1,37 +1,26 @@
 import React from 'react';
-import logo from './logo.svg';
-import { Counter } from './features/counter/Counter';
+import Trending from './components/Trending';
+import QuestionList from './components/QuestionList';
+import SearchInput from './components/SearchInput';
+import SearchButton from './components/SearchButton';
+import { Provider } from 'react-redux';
+import store from './app/store';
 import './App.css';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <Counter />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <span>
-          <span>Learn </span>
-          <a className="App-link" href="https://reactjs.org/" target="_blank" rel="noopener noreferrer">
-            React
-          </a>
-          <span>, </span>
-          <a className="App-link" href="https://redux.js.org/" target="_blank" rel="noopener noreferrer">
-            Redux
-          </a>
-          <span>, </span>
-          <a className="App-link" href="https://redux-toolkit.js.org/" target="_blank" rel="noopener noreferrer">
-            Redux Toolkit
-          </a>
-          ,<span> and </span>
-          <a className="App-link" href="https://react-redux.js.org/" target="_blank" rel="noopener noreferrer">
-            React Redux
-          </a>
-        </span>
-      </header>
-    </div>
+    <Provider store={store}>
+      <div className="w-5/6 md:w-4/5 mx-auto relative mb-20">
+        <header className="bg-[rgba(255,255,255,0.8)] fixed w-5/6 md:w-4/5 h-24 md:h-20 pt-2.5">
+          <div className="w-full md:min-w-[500px] h-14 rounded-2xl bg-white flex flex-wrap content-start relative">
+            <SearchInput />
+            <SearchButton />
+            <Trending />
+          </div>
+        </header>
+        <QuestionList />
+      </div>
+    </Provider>
   );
 }
 

@@ -1,13 +1,7 @@
-import api from '../utils/api';
+import { fetchQuestions } from './stackoverflow/stackoverflow.slice';
 import { useEffect, useState, useRef } from 'react';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
-import {
-  setLoading,
-  setErrorMessage,
-  setQuestions,
-  setPage,
-  resetQuestions,
-} from './stackoverflow/stackoverflow.slice';
+import { setLoading, setPage } from './stackoverflow/stackoverflow.slice';
 import Loader from './Loader';
 
 const QuestionList = () => {
@@ -18,18 +12,6 @@ const QuestionList = () => {
   const currentPage = useAppSelector((state) => state.stackoverflow.page);
   const [lastElement, setLastElement] = useState(null);
   const dispatch = useAppDispatch();
-  const fetchQuestions = async () => {
-    if (currentPage === undefined) {
-      return;
-    }
-    const response = await api.getQuestions(currentPage, trendingClicked);
-    if (response.length === 0) {
-      dispatch(setLoading(false));
-      dispatch(setErrorMessage('No such data'));
-    } else {
-      return response;
-    }
-  };
 
   const observer = useRef(
     new IntersectionObserver((entries) => {
@@ -57,47 +39,13 @@ const QuestionList = () => {
 
   useEffect(() => {
     dispatch(setLoading(true));
-    fetchQuestions()
-      .then((questions) => {
-        if (questions?.items.length === 0) {
-          dispatch(setLoading(false));
-          dispatch(resetQuestions([]));
-          dispatch(setErrorMessage('No Data'));
-        }
-        if (lastElement) {
-          dispatch(setLoading(false));
-          dispatch(resetQuestions([]));
-          dispatch(setQuestions(questions.items));
-        } else {
-          dispatch(setLoading(false));
-          dispatch(setQuestions(questions.items));
-        }
-      })
-      .catch(() => {
-        dispatch(setLoading(false));
-        dispatch(resetQuestions([]));
-        dispatch(setErrorMessage('No such data'));
-      });
+    dispatch(fetchQuestions({ currentPage, trendingClicked }));
   }, [trendingClicked]);
 
   useEffect(() => {
     if (currentPage === 1) return;
     dispatch(setLoading(true));
-    fetchQuestions()
-      .then((questions) => {
-        if (questions?.items.length === 0) {
-          dispatch(setLoading(false));
-          dispatch(resetQuestions([]));
-          dispatch(setErrorMessage('No More Data'));
-        }
-        dispatch(setLoading(false));
-        dispatch(setQuestions(questions.items));
-      })
-      .catch(() => {
-        dispatch(setLoading(false));
-        dispatch(resetQuestions([]));
-        dispatch(setErrorMessage('No such data'));
-      });
+    dispatch(fetchQuestions({ currentPage, trendingClicked }));
   }, [currentPage]);
   return (
     <>

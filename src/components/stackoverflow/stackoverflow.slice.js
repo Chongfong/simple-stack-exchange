@@ -1,4 +1,5 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import api from '../../utils/api';
 
 const initialState = {
   trending: [],
@@ -9,6 +10,17 @@ const initialState = {
   page: 1,
   input: '',
 };
+
+export const fetchQuestions = createAsyncThunk('stackoverflow/getQuestions', async (props) => {
+  const { currentPage, trendingClicked } = props;
+  const response = await api.getQuestions(currentPage, trendingClicked);
+  return response.items;
+});
+
+export const fetchTrendings = createAsyncThunk('stackoverflow/getTrending', async () => {
+  const response = await api.getTrending();
+  return response.items;
+});
 
 export const stackoverflowSlice = createSlice({
   name: 'stackoverflow',
@@ -41,6 +53,45 @@ export const stackoverflowSlice = createSlice({
     setInput: (state, action) => {
       state.input = action.payload;
     },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchQuestions.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(fetchQuestions.fulfilled, (state, action) => {
+        state.isLoading = false;
+        if (action.payload?.length === 0) {
+          state.questions = [];
+          state.errorMessage = 'No Data';
+        } else {
+          state.questions = state.questions.slice().concat(action.payload);
+        }
+      })
+      .addCase(fetchQuestions.rejected, (state) => {
+        state.isLoading = false;
+        state.questions = [];
+        state.errorMessage = 'No Data';
+      })
+      .addCase(fetchTrendings.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(fetchTrendings.fulfilled, (state, action) => {
+        state.isLoading = false;
+        if (action.payload?.length === 0) {
+          state.questions = [];
+          state.errorMessage = 'No Data';
+        } else {
+          state.trending = action.payload;
+          state.trendingClicked = String(action.payload[0].name);
+          state.input = String(action.payload[0].name);
+        }
+      })
+      .addCase(fetchTrendings.rejected, (state) => {
+        state.isLoading = false;
+        state.trending = [];
+        state.errorMessage = 'No Data';
+      });
   },
 });
 

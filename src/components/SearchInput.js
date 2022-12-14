@@ -22,7 +22,7 @@ export const SearchInput = () => {
   const handleKeyboardEvent = (e) => {
     if (e.key === 'Enter') {
       e.preventDefault();
-      if (e.target.value !== input) {
+      if (input !== trendingIsClicked) {
         dispatch(setTrendingClicked(input));
         dispatch(resetQuestions([]));
         dispatch(setLoading(true));
@@ -62,7 +62,7 @@ export const SearchInput = () => {
               >
                 <div
                   onClick={() => {
-                    if (e.name !== input) {
+                    if (input !== trendingIsClicked) {
                       dispatch(resetQuestions([]));
                       dispatch(setLoading(true));
                       dispatch(setInput(e.name));

@@ -1,14 +1,6 @@
-import api from '../utils/api';
+import { fetchTrendings } from './stackoverflow/stackoverflow.slice';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
-import {
-  setTrending,
-  setTrendingClicked,
-  setLoading,
-  setErrorMessage,
-  resetPage,
-  setInput,
-  resetQuestions,
-} from './stackoverflow/stackoverflow.slice';
+import { setTrendingClicked, resetPage, setInput, resetQuestions } from './stackoverflow/stackoverflow.slice';
 import Loader from './Loader';
 import { Fragment, useEffect } from 'react';
 
@@ -19,26 +11,9 @@ const Trending = () => {
   const errorMessage = useAppSelector((state) => state.stackoverflow.errorMessage);
   const dispatch = useAppDispatch();
 
-  const handleFetch = async () => {
-    api
-      .getTrending()
-      .then((json) => {
-        if (json.length === 0) {
-          dispatch(setLoading(false));
-          dispatch(setErrorMessage('No such data'));
-        } else {
-          return json;
-        }
-      })
-      .then((trending) => {
-        dispatch(setTrending(trending.items));
-        dispatch(setTrendingClicked(String(trending.items[0].name)));
-        dispatch(setInput(String(trending.items[0].name)));
-      });
-  };
   useEffect(() => {
     {
-      handleFetch();
+      dispatch(fetchTrendings());
     }
   }, []);
   return (

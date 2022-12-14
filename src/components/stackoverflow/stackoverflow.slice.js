@@ -17,6 +17,11 @@ export const fetchQuestions = createAsyncThunk('stackoverflow/getQuestions', asy
   return response.items;
 });
 
+export const fetchTrendings = createAsyncThunk('stackoverflow/getTrending', async () => {
+  const response = await api.getTrending();
+  return response.items;
+});
+
 export const stackoverflowSlice = createSlice({
   name: 'stackoverflow',
   initialState,
@@ -66,6 +71,25 @@ export const stackoverflowSlice = createSlice({
       .addCase(fetchQuestions.rejected, (state) => {
         state.isLoading = false;
         state.questions = [];
+        state.errorMessage = 'No Data';
+      })
+      .addCase(fetchTrendings.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(fetchTrendings.fulfilled, (state, action) => {
+        state.isLoading = false;
+        if (action.payload?.length === 0) {
+          state.questions = [];
+          state.errorMessage = 'No Data';
+        } else {
+          state.trending = action.payload;
+          state.trendingClicked = String(action.payload[0].name);
+          state.input = String(action.payload[0].name);
+        }
+      })
+      .addCase(fetchTrendings.rejected, (state) => {
+        state.isLoading = false;
+        state.trending = [];
         state.errorMessage = 'No Data';
       });
   },
